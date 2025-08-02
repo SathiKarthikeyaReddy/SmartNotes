@@ -1,0 +1,271 @@
+/* Custom Styles for SmartNotes */
+
+body {
+    background-color: #f8f9fa;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.navbar-brand {
+    font-weight: bold;
+    font-size: 1.5rem;
+}
+
+/* Category Items */
+.category-item {
+    padding: 10px 15px;
+    margin-bottom: 5px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: 1px solid transparent;
+}
+
+.category-item:hover {
+    background-color: #e9ecef;
+    border-color: #dee2e6;
+}
+
+.category-item.active {
+    background-color: #007bff;
+    color: white;
+    border-color: #007bff;
+}
+
+/* Note Cards */
+.note-card {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    margin-bottom: 20px;
+    border: 2px solid transparent;
+    position: relative;
+    overflow: hidden;
+}
+
+.note-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.15);
+}
+
+.note-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, #007bff, #6610f2);
+}
+
+.note-card.work::before {
+    background: linear-gradient(90deg, #28a745, #20c997);
+}
+
+.note-card.personal::before {
+    background: linear-gradient(90deg, #fd7e14, #e83e8c);
+}
+
+.note-card.ideas::before {
+    background: linear-gradient(90deg, #ffc107, #fd7e14);
+}
+
+.note-card.todo::before {
+    background: linear-gradient(90deg, #6f42c1, #e83e8c);
+}
+
+.note-header {
+    padding: 15px 20px 10px;
+    border-bottom: 1px solid #e9ecef;
+}
+
+.note-title {
+    font-weight: 600;
+    font-size: 1.1rem;
+    margin-bottom: 5px;
+    color: #212529;
+}
+
+.note-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.85rem;
+    color: #6c757d;
+}
+
+.note-category {
+    background: #e9ecef;
+    padding: 2px 8px;
+    border-radius: 12px;
+    font-size: 0.75rem;
+    font-weight: 500;
+}
+
+.note-content {
+    padding: 15px 20px;
+    color: #495057;
+    line-height: 1.6;
+    max-height: 120px;
+    overflow: hidden;
+    position: relative;
+}
+
+.note-content::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 20px;
+    background: linear-gradient(transparent, white);
+    pointer-events: none;
+}
+
+.note-actions {
+    padding: 10px 20px 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid #e9ecef;
+}
+
+.note-actions .btn {
+    padding: 5px 10px;
+    font-size: 0.85rem;
+}
+
+/* Color Picker */
+.color-picker {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.color-option {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    cursor: pointer;
+    border: 2px solid #dee2e6;
+    transition: all 0.3s ease;
+}
+
+.color-option:hover {
+    transform: scale(1.1);
+    border-color: #007bff;
+}
+
+.color-option.selected {
+    border-color: #007bff;
+    transform: scale(1.1);
+}
+
+/* Search Results */
+.search-highlight {
+    background-color: #fff3cd;
+    padding: 2px 4px;
+    border-radius: 3px;
+}
+
+/* Empty State */
+#emptyState {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .col-md-3 {
+        margin-bottom: 20px;
+    }
+    
+    .note-card {
+        margin-bottom: 15px;
+    }
+    
+    .note-actions {
+        flex-direction: column;
+        gap: 10px;
+    }
+    
+    .note-actions .btn {
+        width: 100%;
+    }
+}
+
+/* Animation for new notes */
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.note-card.new-note {
+    animation: slideIn 0.5s ease-out;
+}
+
+/* Loading spinner */
+.spinner-border-sm {
+    width: 1rem;
+    height: 1rem;
+}
+
+/* Toast notifications */
+.toast-container {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 1050;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #c1c1c1;
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #a8a8a8;
+}
+
+/* Focus states */
+.form-control:focus,
+.form-select:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+
+.btn:focus {
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+
+/* Print styles */
+@media print {
+    .navbar,
+    .sidebar,
+    .note-actions {
+        display: none !important;
+    }
+    
+    .note-card {
+        break-inside: avoid;
+        box-shadow: none;
+        border: 1px solid #dee2e6;
+    }
+} 

@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SmartNotes - Your Digital Note Companion</title>
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <div class="container">
+            <a class="navbar-brand" href="#">
+                <i class="fas fa-sticky-note me-2"></i>
+                SmartNotes
+            </a>
+            <div class="navbar-nav ms-auto">
+                <span class="navbar-text">
+                    <i class="fas fa-user me-1"></i>
+                    Welcome, User!
+                </span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Container -->
+    <div class="container mt-4">
+        <div class="row">
+            <!-- Sidebar -->
+            <div class="col-md-3">
+                <div class="card">
+                    <div class="card-header bg-light">
+                        <h5 class="mb-0">
+                            <i class="fas fa-folder me-2"></i>
+                            Quick Actions
+                        </h5>
+                    </div>
+                    <div class="card-body">
+                        <button class="btn btn-primary w-100 mb-2" id="newNoteBtn">
+                            <i class="fas fa-plus me-2"></i>
+                            New Note
+                        </button>
+                        <button class="btn btn-outline-secondary w-100 mb-2" id="searchBtn">
+                            <i class="fas fa-search me-2"></i>
+                            Search Notes
+                        </button>
+                        <button class="btn btn-outline-info w-100 mb-2" id="exportBtn">
+                            <i class="fas fa-download me-2"></i>
+                            Export All
+                        </button>
+                        <button class="btn btn-outline-danger w-100" id="clearAllBtn">
+                            <i class="fas fa-trash me-2"></i>
+                            Clear All
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Categories -->
+                <div class="card mt-3">
+                    <div class="card-header bg-light">
+                        <h6 class="mb-0">
+                            <i class="fas fa-tags me-2"></i>
+                            Categories
+                        </h6>
+                    </div>
+                    <div class="card-body">
+                        <div class="category-item" data-category="all">
+                            <i class="fas fa-list me-2"></i>
+                            All Notes
+                        </div>
+                        <div class="category-item" data-category="work">
+                            <i class="fas fa-briefcase me-2"></i>
+                            Work
+                        </div>
+                        <div class="category-item" data-category="personal">
+                            <i class="fas fa-user me-2"></i>
+                            Personal
+                        </div>
+                        <div class="category-item" data-category="ideas">
+                            <i class="fas fa-lightbulb me-2"></i>
+                            Ideas
+                        </div>
+                        <div class="category-item" data-category="todo">
+                            <i class="fas fa-tasks me-2"></i>
+                            To-Do
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Main Content -->
+            <div class="col-md-9">
+                <!-- Search Bar -->
+                <div class="input-group mb-3">
+                    <span class="input-group-text">
+                        <i class="fas fa-search"></i>
+                    </span>
+                    <input type="text" class="form-control" id="searchInput" placeholder="Search your notes...">
+                    <button class="btn btn-outline-secondary" type="button" id="clearSearchBtn">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+
+                <!-- Notes Grid -->
+                <div class="row" id="notesContainer">
+                    <!-- Notes will be dynamically added here -->
+                </div>
+
+                <!-- Empty State -->
+                <div id="emptyState" class="text-center py-5" style="display: none;">
+                    <i class="fas fa-sticky-note fa-3x text-muted mb-3"></i>
+                    <h4 class="text-muted">No notes yet</h4>
+                    <p class="text-muted">Create your first note to get started!</p>
+                    <button class="btn btn-primary" id="createFirstNoteBtn">
+                        <i class="fas fa-plus me-2"></i>
+                        Create Your First Note
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Note Modal -->
+    <div class="modal fade" id="noteModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalTitle">
+                        <i class="fas fa-edit me-2"></i>
+                        New Note
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="noteTitle" class="form-label">Title</label>
+                        <input type="text" class="form-control" id="noteTitle" placeholder="Enter note title">
+                    </div>
+                    <div class="mb-3">
+                        <label for="noteCategory" class="form-label">Category</label>
+                        <select class="form-select" id="noteCategory">
+                            <option value="work">Work</option>
+                            <option value="personal">Personal</option>
+                            <option value="ideas">Ideas</option>
+                            <option value="todo">To-Do</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="noteContent" class="form-label">Content</label>
+                        <textarea class="form-control" id="noteContent" rows="10" placeholder="Write your note here..."></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label for="noteColor" class="form-label">Note Color</label>
+                        <div class="color-picker">
+                            <div class="color-option" data-color="#ffffff" style="background-color: #ffffff; border: 2px solid #007bff;"></div>
+                            <div class="color-option" data-color="#fff3cd" style="background-color: #fff3cd;"></div>
+                            <div class="color-option" data-color="#d1ecf1" style="background-color: #d1ecf1;"></div>
+                            <div class="color-option" data-color="#d4edda" style="background-color: #d4edda;"></div>
+                            <div class="color-option" data-color="#f8d7da" style="background-color: #f8d7da;"></div>
+                            <div class="color-option" data-color="#e2e3e5" style="background-color: #e2e3e5;"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary" id="saveNoteBtn">
+                        <i class="fas fa-save me-2"></i>
+                        Save Note
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Custom JS -->
+    <script src="script.js"></script>
+</body>
+</html> 
