@@ -57,6 +57,13 @@ class SmartNotes {
         // Modal Events
         const noteModal = document.getElementById('noteModal');
         noteModal.addEventListener('hidden.bs.modal', () => this.resetModal());
+
+        // Theme Switcher
+        document.getElementById('themeSwitch').addEventListener('change', (e) => {
+            this.setTheme(e.target.checked ? 'dark' : 'light');
+        });
+
+        this.loadTheme();
     }
 
     openNoteModal(noteId = null) {
@@ -324,6 +331,23 @@ class SmartNotes {
         toast.addEventListener('hidden.bs.toast', () => {
             toast.remove();
         });
+    }
+
+    setTheme(theme) {
+        if (theme === 'dark') {
+            document.body.classList.add('dark-mode');
+            localStorage.setItem('smartNotesTheme', 'dark');
+            document.getElementById('themeSwitch').checked = true;
+        } else {
+            document.body.classList.remove('dark-mode');
+            localStorage.setItem('smartNotesTheme', 'light');
+            document.getElementById('themeSwitch').checked = false;
+        }
+    }
+
+    loadTheme() {
+        const savedTheme = localStorage.getItem('smartNotesTheme') || 'light';
+        this.setTheme(savedTheme);
     }
 }
 
