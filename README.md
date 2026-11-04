@@ -1,3 +1,11 @@
+# SmartNotes 2: email action assistant
+
+The new email-to-task workspace is on this branch. See [PRODUCT.md](PRODUCT.md) for setup, Gmail/Outlook connections, Gemini configuration, reminders, tests, and the local MVP's deployment limits. Run `npm ci` then `npm start` and open `http://localhost:3000`.
+
+The original browser-only note app and its files remain below and are retained unchanged.
+
+---
+
 # 📝 SmartNotes - Your Digital Note Companion
 
 A modern, responsive web-based note-taking application built with HTML, CSS, JavaScript, Bootstrap, and FontAwesome. SmartNotes provides an intuitive interface for creating, organizing, and managing your notes with a beautiful design and powerful features.
@@ -179,4 +187,4 @@ If you have any questions or need help:
 
 **Made with ❤️ using modern web technologies**
 
-*SmartNotes - Organize your thoughts, one note at a time* 
+*SmartNotes - Organize your thoughts, one note at a time*
