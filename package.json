@@ -1,0 +1,23 @@
+{
+  "name": "smartnotes",
+  "version": "2.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "node --env-file-if-exists=.env server.js",
+    "test": "node --test",
+    "check": "node --check server.js && node --check core.js && node --check mail.js && node --check app.js",
+    "test:report": "node --test --test-reporter=./test-support/json-reporter.mjs",
+    "test:coverage": "node --test --experimental-test-coverage --test-coverage-exclude=test/** --test-coverage-exclude=test-support/**",
+    "test:ai:live": "node --env-file-if-exists=.env scripts/evaluate-ai.mjs --live"
+  },
+  "engines": {
+    "node": ">=22.13"
+  },
+  "dependencies": {
+    "web-push": "^3.6.7"
+  },
+  "devDependencies": {
+    "jsdom": "^30.1.3"
+  }
+}

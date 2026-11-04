@@ -1,0 +1,13 @@
+import { test } from 'node:test';
+import assert from 'node:assert/strict';
+import vm from 'node:vm';
+import { readFile } from 'node:fs/promises';
+const source=await readFile(new URL('../sw.js',import.meta.url),'utf8');
+function worker(windows=[]){const events={},calls=[];const context={URL,self:{location:{origin:'https://smartnotes.test'},addEventListener:(name,fn)=>events[name]=fn,registration:{showNotification:async(title,options)=>calls.push({title,options})}},clients:{matchAll:async()=>windows,openWindow:async url=>calls.push({opened:url})}};vm.runInNewContext(source,context);return {events,calls};}
+test('service worker push uses notification title body and stable tag',async()=>{const w=worker();let pending;w.events.push({data:{json:()=>({title:'Assessment',body:'Due soon',id:'n1'})},waitUntil:p=>pending=p});await pending;assert.equal(w.calls[0].title,'Assessment');assert.equal(w.calls[0].options.tag,'n1');assert.equal(w.calls[0].options.requireInteraction,true);});
+test('service worker absent data uses fallback title',async()=>{const w=worker();let pending;w.events.push({waitUntil:p=>pending=p});await pending;assert.equal(w.calls[0].title,'SmartNotes reminder');});
+test('service worker malformed data still shows generic notification',async()=>{const w=worker();let pending;assert.doesNotThrow(()=>w.events.push({data:{json:()=>{throw new SyntaxError('bad payload');}},waitUntil:p=>pending=p}));await pending;assert.equal(w.calls[0].title,'SmartNotes reminder');});
+test('service worker null JSON still shows generic notification',async()=>{const w=worker();let pending;assert.doesNotThrow(()=>w.events.push({data:{json:()=>null},waitUntil:p=>pending=p}));await pending;assert.equal(w.calls[0].title,'SmartNotes reminder');});
+test('click focuses existing app and closes notification',async()=>{let focus=0,close=0;const w=worker([{url:'https://smartnotes.test/',focus:async()=>focus++}]);let pending;w.events.notificationclick({notification:{close:()=>close++},waitUntil:p=>pending=p});await pending;assert.equal(focus,1);assert.equal(close,1);assert.equal(w.calls.length,0);});
+test('click opens app if no app window exists',async()=>{const w=worker([{url:'https://unrelated.test'}]);let pending;w.events.notificationclick({notification:{close(){}},waitUntil:p=>pending=p});await pending;assert.equal(w.calls[0].opened,'/');});
+test('notification payload cannot redirect to hostile URL',async()=>{const w=worker();let pending;w.events.notificationclick({notification:{close(){},data:{url:'https://evil.test'}},waitUntil:p=>pending=p});await pending;assert.equal(w.calls[0].opened,'/');});
